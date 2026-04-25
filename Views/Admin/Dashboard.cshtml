@@ -1,0 +1,81 @@
+@model List<SkillSwapAI.Models.User>
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card p-3 text-center border-0 border-top border-4 border-primary">
+            <h2 class="mb-0">@ViewBag.UserCount</h2>
+            <p class="text-muted mb-0">Total Students</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3 text-center border-0 border-top border-4 border-info">
+            <h2 class="mb-0">@ViewBag.SkillCount</h2>
+            <p class="text-muted mb-0">Skills Catalog</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3 text-center border-0 border-top border-4 border-warning">
+            <h2 class="mb-0">@ViewBag.ExamCount</h2>
+            <p class="text-muted mb-0">Active Exams</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3 text-center border-0 border-top border-4 border-success">
+            <h2 class="mb-0">@ViewBag.CertificateCount</h2>
+            <p class="text-muted mb-0">Certificates Issued</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card p-4">
+            <h5 class="mb-4">Recent Registrations</h5>
+            <div class="table-responsive">
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Joined</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var user in Model)
+                        {
+                            <tr>
+                                <td>@user.Name</td>
+                                <td>@user.Email</td>
+                                <td><span class="badge bg-secondary">@user.Role</span></td>
+                                <td class="text-muted small">@user.CreatedAt.ToShortDateString()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card p-4">
+            <h5 class="mb-4">Quick Actions</h5>
+            <div class="d-grid gap-2">
+                <a asp-action="Skills" class="btn btn-outline-info text-start">
+                    <i class="fas fa-plus me-2"></i> Add New Skill
+                </a>
+                <a asp-action="CreateExam" class="btn btn-outline-warning text-start">
+                    <i class="fas fa-file-signature me-2"></i> Create New Exam
+                </a>
+                <a href="#" class="btn btn-outline-primary text-start">
+                    <i class="fas fa-users me-2"></i> Manage Students
+                </a>
+                <a href="#" class="btn btn-outline-light text-start">
+                    <i class="fas fa-cog me-2"></i> System Settings
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
