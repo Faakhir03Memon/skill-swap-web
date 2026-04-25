@@ -1,0 +1,86 @@
+@model SkillSwapAI.Models.Exam
+@{
+    ViewData["Title"] = "Manage Questions";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Questions for: @Model.Title</h2>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addQuestionModal">
+        <i class="fas fa-plus me-2"></i>Add Question
+    </button>
+</div>
+
+<div class="card p-4">
+    @if (Model.Questions != null && Model.Questions.Any())
+    {
+        <div class="list-group list-group-flush">
+            @foreach (var q in Model.Questions)
+            {
+                <div class="list-group-item bg-transparent text-white border-secondary mb-3">
+                    <h6 class="mb-2">@q.Text</h6>
+                    <div class="row small">
+                        <div class="col-md-6 @(q.CorrectOption == "A" ? "text-success fw-bold" : "")">A: @q.OptionA</div>
+                        <div class="col-md-6 @(q.CorrectOption == "B" ? "text-success fw-bold" : "")">B: @q.OptionB</div>
+                        <div class="col-md-6 @(q.CorrectOption == "C" ? "text-success fw-bold" : "")">C: @q.OptionC</div>
+                        <div class="col-md-6 @(q.CorrectOption == "D" ? "text-success fw-bold" : "")">D: @q.OptionD</div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-muted text-center py-5">No questions added yet.</p>
+    }
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addQuestionModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-dark text-white border-secondary">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Question</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="AddQuestion" method="post">
+                <input type="hidden" name="ExamId" value="@Model.Id" />
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Question Text</label>
+                        <textarea name="Text" class="form-control bg-dark text-white border-secondary" required></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Option A</label>
+                            <input name="OptionA" class="form-control bg-dark text-white border-secondary" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Option B</label>
+                            <input name="OptionB" class="form-control bg-dark text-white border-secondary" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Option C</label>
+                            <input name="OptionC" class="form-control bg-dark text-white border-secondary" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Option D</label>
+                            <input name="OptionD" class="form-control bg-dark text-white border-secondary" required />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Correct Option</label>
+                        <select name="CorrectOption" class="form-select bg-dark text-white border-secondary">
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save Question</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
